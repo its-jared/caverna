@@ -47,26 +47,26 @@ fn generate(
 
             
             let block: &BlockComponent = blocks.get(block_id).unwrap();
-            
-            commands.spawn((
-                Sprite {
+
+            commands.spawn(BlockBundle {
+                sprite: Sprite {
                     image: block.sprite.clone(),
                     ..Default::default()
                 },
-                Transform {
+                transform: Transform {
                     scale: Vec3::splat(BLOCK_SCALE),
                     translation: Vec3::new(x as f32 * (BLOCK_SCALE * BLOCK_PIXEL_SIZE), 
                                         y as f32 * (BLOCK_SCALE * BLOCK_PIXEL_SIZE),
                                         0.),
                     ..Default::default()
                 },
-                BlockComponent {
+                block: BlockComponent {
                     id: block.id,
                     name: block.name.clone(),
                     block_description: block.block_description.clone(),
-                    sprite: block.sprite.clone()
-                }
-            ));
+                    sprite: block.sprite.clone(),
+                },
+            });
         }
     }
 }

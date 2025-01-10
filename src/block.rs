@@ -13,9 +13,9 @@ pub struct BlockComponent {
 
 #[derive(Bundle)]
 pub struct BlockBundle {
-    sprite: Sprite,
-    transform: Transform,
-    block: BlockComponent,
+    pub sprite: Sprite,
+    pub transform: Transform,
+    pub block: BlockComponent,
 }
 
 pub fn init_blocks(asset_server: Res<AssetServer>) -> Vec<BlockComponent> {
