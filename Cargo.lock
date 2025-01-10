@@ -1403,6 +1403,9 @@ version = "0.0.1"
 dependencies = [
  "bevy",
  "noise",
+ "rand",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

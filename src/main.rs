@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+mod block;
+
 mod game;
 mod moveable_camera;
 mod terrain;

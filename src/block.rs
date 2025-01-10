@@ -1,0 +1,43 @@
+use bevy::prelude::*;
+
+pub static BLOCK_PIXEL_SIZE: f32 = 8.;
+pub static BLOCK_SCALE: f32 = 2.;
+
+#[derive(Component)]
+pub struct BlockComponent {
+    pub id: i64,
+    pub name: String,
+    pub block_description: String,
+    pub sprite: Handle<Image>,
+}
+
+#[derive(Bundle)]
+pub struct BlockBundle {
+    sprite: Sprite,
+    transform: Transform,
+    block: BlockComponent,
+}
+
+pub fn init_blocks(asset_server: Res<AssetServer>) -> Vec<BlockComponent> {
+    let file: String = std::fs::read_to_string("assets/blocks.json").ok().unwrap();
+    let file_to_parse: &str = &file;
+
+    let json: serde_json::Value = 
+        serde_json::from_str(file_to_parse).expect("Blocks.json wasn't properly formated!");
+
+    let json_array = json["blocks"].as_array().unwrap();
+
+    let mut blocks: Vec<BlockComponent> = Vec::new();        
+    for i in 0..json_array.len() {
+        let value: &serde_json::Value = json_array.get(i).unwrap();
+
+        blocks.push(BlockComponent {
+            id: value["id"].as_i64().unwrap(),
+            name: value["name"].as_str().unwrap().to_string(),
+            block_description: value["description"].as_str().unwrap().to_string(),
+            sprite: asset_server.load(value["sprite_path"].as_str().unwrap().to_string())
+        });
+    }
+    
+    return blocks;
+}
