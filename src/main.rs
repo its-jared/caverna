@@ -1,9 +1,14 @@
 use bevy::prelude::*;
 
+mod game;
+mod moveable_camera;
+mod terrain;
+
 fn main() {
     App::new()
         .add_plugins(
-            DefaultPlugins
+            (
+                DefaultPlugins
                 .set(WindowPlugin {
                     primary_window: Some(Window {
                         title: String::from("caverna"),
@@ -13,7 +18,11 @@ fn main() {
                     }),
                     ..Default::default()
                 })
-                .set(ImagePlugin::default_nearest())
+                .set(ImagePlugin::default_nearest()),
+
+                game::GamePlugin
+            )
         )
         .run();
 }
+
