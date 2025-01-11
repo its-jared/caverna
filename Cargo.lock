@@ -1404,7 +1404,6 @@ dependencies = [
  "bevy",
  "noise",
  "rand",
- "serde",
  "serde_json",
 ]
 

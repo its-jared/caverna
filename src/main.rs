@@ -1,30 +1,26 @@
 use bevy::prelude::*;
 
-mod block;
+pub mod game;
 
-mod game;
-mod moveable_camera;
-mod terrain;
+pub mod player;
+pub mod level;
 
 fn main() {
     App::new()
-        .add_plugins(
-            (
-                DefaultPlugins
-                .set(WindowPlugin {
-                    primary_window: Some(Window {
-                        title: String::from("caverna"),
-                        position: WindowPosition::Centered(MonitorSelection::Primary),
-                        resizable: false,
-                        ..Default::default()
-                    }),
+        .add_plugins((
+            DefaultPlugins
+            .set(WindowPlugin {
+                primary_window: Some(Window {
+                    title: String::from("caverna"),
+                    position: WindowPosition::Centered(MonitorSelection::Primary),
+                    resizable: false,
                     ..Default::default()
-                })
-                .set(ImagePlugin::default_nearest()),
-
-                game::GamePlugin
-            )
-        )
+                }),
+                ..Default::default()
+            })
+            .set(ImagePlugin::default_nearest()),
+            game::GamePlugin
+        ))
+        .insert_resource(ClearColor(Color::srgb(0.0, 0.0, 0.0)))
         .run();
 }
-

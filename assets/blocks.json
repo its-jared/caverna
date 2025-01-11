@@ -1,22 +1,11 @@
 {
   "blocks": [
     {
-      "id": 0,
-      "name": "air",
-      "description": "good for breathing.",
-      "sprite_path": "sprites/air.png"
-    },
-    {
       "id": 1,
-      "name": "generic block",
-      "description": "just a regular-degular block.",
-      "sprite_path": "sprites/block.png"
-    },
-    {
-      "id": 1,
-      "name": "generic blue block",
-      "description": "just a regular-degular blue block.",
-      "sprite_path": "sprites/block_blue.png"
+      "name": "bricks",
+      "description": "sturdy base.",
+      "sprite_path": "sprites/bricks.png",
+      "color": [255, 255, 255]
     }
   ]
 }

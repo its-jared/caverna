@@ -18,7 +18,7 @@ pub struct BlockBundle {
     pub block: BlockComponent,
 }
 
-pub fn init_blocks(asset_server: Res<AssetServer>) -> Vec<BlockComponent> {
+pub fn init_blocks(asset_server: &Res<AssetServer>) -> Vec<BlockComponent> {
     let file: String = std::fs::read_to_string("assets/blocks.json").ok().unwrap();
     let file_to_parse: &str = &file;
 
