@@ -1,11 +1,13 @@
 use bevy::prelude::*;
+use bevy_rapier2d::prelude::*;
 
 fn update_player(
     time: Res<Time>,
     input_buttons: Res<ButtonInput<KeyCode>>,
-    mut player_query: Query<(&Player, &mut Transform)>
+    mut controllers: Query<&mut KinematicCharacterController>,
+    mut cameras: Query<(&mut Camera2d, &mut Transform)>
 ) {
-    let mut direction = Vec3::ZERO;
+    let mut direction = Vec2::ZERO;
 
     if input_buttons.pressed(KeyCode::KeyA) {
         direction.x -= 1.;
@@ -23,13 +25,17 @@ fn update_player(
         direction.y -= 1.;
     }
 
-    if direction != Vec3::ZERO {
+    if direction != Vec2::ZERO {
         let speed = 100.;
         let translation = direction.normalize() * speed * time.delta_secs();
-        
-        player_query.iter_mut().for_each(|(_player, mut player_translation)| {
-            player_translation.translation += translation;
-        });
+         
+        for mut controller in controllers.iter_mut() {
+            controller.translation = Some(translation);
+        }
+
+        for (mut _camera, mut transform) in cameras.iter_mut() {
+            transform.translation += Vec3::new(translation.x, translation.y, 0.);
+        }
     }
 }
 
@@ -47,7 +53,10 @@ fn init_player(
         },
         Player {
             health: 100
-        }
+        },
+        RigidBody::KinematicPositionBased,
+        Collider::ball(8. / 2.),
+        KinematicCharacterController::default()
     ));
 }
 
