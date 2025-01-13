@@ -1,11 +1,13 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
+use crate::level;
+
+// TODO: Make the camera follow the player.
 fn update_player(
     time: Res<Time>,
     input_buttons: Res<ButtonInput<KeyCode>>,
-    mut controllers: Query<&mut KinematicCharacterController>,
-    mut cameras: Query<(&mut Camera2d, &mut Transform)>
+    mut controllers: Query<&mut KinematicCharacterController>
 ) {
     let mut direction = Vec2::ZERO;
 
@@ -32,10 +34,6 @@ fn update_player(
         for mut controller in controllers.iter_mut() {
             controller.translation = Some(translation);
         }
-
-        for (mut _camera, mut transform) in cameras.iter_mut() {
-            transform.translation += Vec3::new(translation.x, translation.y, 0.);
-        }
     }
 }
 
@@ -43,10 +41,21 @@ fn init_player(
     mut commands: Commands,
     asset_server: Res<AssetServer>
 ) {
-    commands.spawn(Camera2d::default());
+    let spawn_position: Vec3 = Vec3::new(level::TRUE_WORLD_SIZE as f32 / 2.,
+                                         level::TRUE_WORLD_SIZE as f32 / 2.,
+                                         1.);
 
     commands.spawn((
-        Transform::from_scale(Vec3::splat(2.)),
+        Camera2d::default(),
+        Transform::from_translation(spawn_position),
+    ));
+
+    commands.spawn((
+        Transform {
+            scale: Vec3::splat(2.),
+            translation: spawn_position,
+            ..Default::default()
+        },
         Sprite {
             image: asset_server.load("sprites/player.png"),
             ..Default::default()
@@ -55,7 +64,7 @@ fn init_player(
             health: 100
         },
         RigidBody::KinematicPositionBased,
-        Collider::ball(8. / 2.),
+        Collider::cuboid(4. / 2., 8. / 2.),
         KinematicCharacterController::default()
     ));
 }

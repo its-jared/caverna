@@ -2,7 +2,8 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::Collider;
 use noise::NoiseFn;
 
-const WORLD_SIZE: i32 = 100;
+pub const WORLD_SIZE: i32 = 50;
+pub const TRUE_WORLD_SIZE: i32 = WORLD_SIZE * 16;
 
 fn init_level(
     mut commands: Commands,

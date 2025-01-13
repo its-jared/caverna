@@ -1,10 +1,12 @@
-use bevy::prelude::*;
+use bevy::{diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin}, prelude::*};
 use bevy_rapier2d::prelude::*;
 
 pub mod game;
 
 pub mod player;
 pub mod level;
+
+pub mod gui; 
 
 fn main() {
     App::new()
@@ -22,7 +24,9 @@ fn main() {
             .set(ImagePlugin::default_nearest()),
 
             RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.),
-            //RapierDebugRenderPlugin::default(),
+            RapierDebugRenderPlugin::default(),
+
+            FrameTimeDiagnosticsPlugin::default(),
 
             game::GamePlugin
         ))
